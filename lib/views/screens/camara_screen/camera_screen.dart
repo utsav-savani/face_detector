@@ -17,6 +17,7 @@ class CameraScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         actions: [
           IconButton(
@@ -25,25 +26,27 @@ class CameraScreen extends StatelessWidget {
           )
         ],
       ),
-      body: _controller.dataStatus.isSuccess
-          ? FutureBuilder(
-              future: _controller.initializeControllerFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return Column(
-                    children: [
-                      generateImageWidget(),
-                      generateBottomWidget(),
-                    ],
-                  );
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              },
-            )
-          : const Center(
-              child: CircularProgressIndicator(),
-            ),
+      body: Obx(
+        () => _controller.dataStatus.value.isSuccess
+            ? FutureBuilder(
+                future: _controller.initializeControllerFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return Column(
+                      children: [
+                        generateImageWidget(),
+                        generateBottomWidget(),
+                      ],
+                    );
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              ),
+      ),
     );
   }
 

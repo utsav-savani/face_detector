@@ -16,7 +16,7 @@ import '../views/screens/widgets/toast.dart';
 
 class CameraScreenController extends GetxController {
   Rx<ImageStatus> imageStatus = ImageStatus.camera.obs;
-  RxStatus dataStatus = RxStatus.loading();
+  Rx<RxStatus> dataStatus = RxStatus.loading().obs;
   late CameraController cameraController;
   late Future<void> initializeControllerFuture;
 
@@ -51,7 +51,9 @@ class CameraScreenController extends GetxController {
       );
 
       initializeControllerFuture = cameraController.initialize();
-      dataStatus = RxStatus.success();
+      log("dataStatus is:--> $dataStatus");
+      dataStatus.value = RxStatus.success();
+      log("dataStatus is:--> $dataStatus");
     });
   }
 
